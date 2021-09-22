@@ -18,17 +18,16 @@ a:hover {
 }
 
 .app {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(auto, 300px) 1fr;
   overflow: hidden;
 }
 
 .navbar {
-  flex: 0.2;
   background-color: rgb(0, 21, 41);
 }
 
 .main {
-  flex: 0.8;
   width: 100%;
 }
 .routes {
@@ -38,8 +37,8 @@ a:hover {
   position: fixed;
   left: 0;
   height: 100vh;
+  min-width: 300px;
   margin: 0;
-  min-width: 381px;
   background-color: rgb(0, 21, 41);
 }
 
@@ -50,11 +49,12 @@ a:hover {
   align-items: center;
   width: 100%;
 }
-.logo {
-  margin: 0 0 0 15px;
+.logo-container .logo {
+  margin-left: 15px;
+  margin-bottom: 0;
 }
-.logo a {
-  color: white;
+.logo-container .logo a {
+  color: rgba(255, 255, 255, 0.65);
 }
 .menu-control-container {
   display: none;
@@ -382,6 +382,10 @@ a:hover {
   flex-direction: column;
   padding: 20px;
   align-items: center;
+}
+
+.footer a{
+  color: var(--bgSecondary);
 }
 
 @media (min-width: 640px) {
