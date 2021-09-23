@@ -16,6 +16,9 @@
 a:hover {
   color: var(--pink);
 }
+.navbar .ant-menu-item a.active{
+  color: var(--pink);
+}
 
 .app {
   display: grid;
@@ -30,9 +33,11 @@ a:hover {
 .main {
   width: 100%;
 }
+
 .routes {
   padding: 20px;
 }
+
 .nav-container {
   position: fixed;
   left: 0;
@@ -56,6 +61,7 @@ a:hover {
 .logo-container .logo a {
   color: rgba(255, 255, 255, 0.65);
 }
+
 .menu-control-container {
   display: none;
   position: absolute;
@@ -73,21 +79,25 @@ a:hover {
   align-items: center;
 }
 
-@media screen and (max-width: 1300px) {
-  .main {
-    margin-left: 50px;
-  }
-}
 
 @media screen and (max-width: 1170px) {
-  .main {
-    margin-left: 50px;
+  .news-image-container {
+    flex-direction: column;
+    align-items: initial !important;
   }
-}
-
-@media screen and (max-width: 1000px) {
-  .main {
-    margin-left: 100px;
+  .news-image-container .news-title {
+    order: 1;
+    padding-right: 0;
+    margin-top: 1rem;
+    font-size: 1rem;
+    width: 100%;
+  }
+  .news-card .ant-card-body {
+    padding: 15px;
+  }
+  .news-image-container img {
+    height: 180px;
+    object-fit: cover;
   }
 }
 
@@ -101,39 +111,22 @@ a:hover {
     flex: 1;
   }
 
-  .main {
-    flex: 1;
-    margin-top: 90px;
-    margin-left: 0px;
-    margin-right: 10px;
-  }
-
-  .nav-container {
-    height: 8vh;
-    position: fixed;
-    width: 100%;
-    z-index: 100;
-    background-color: var(--bgSecondary);
-  }
-
   .menu-control-container {
     display: block;
   }
 
-  .ant-menu {
-    position: absolute;
-    right: 0px;
-  }
   .home-title {
     font-size: 1.4rem;
   }
+
   .show-more {
     font-size: 1.3rem;
   }
-}
 
-.coin-detail-container {
-  margin: 30px;
+  .news-image-container img {
+    height: 200px;
+    object-fit: cover;
+  }
 }
 
 .coin-heading-container {
@@ -344,7 +337,7 @@ a:hover {
   font-weight: 900;
 }
 .current-price {
-  margin-top: 0px;
+  margin-top: 0 !important;
   font-weight: 900;
 }
 .home-heading-container {
@@ -362,18 +355,13 @@ a:hover {
 .search-crypto {
   margin: 20px 0 30px;
 }
-.crypto-card-container {
-  min-height: 65vh;
-}
-.crypto-card {
-  min-width: 250px;
-}
 .crypto-card .crypto-image {
   width: 35px;
 }
 .select-timeperiod {
   width: 200px;
-  margin-top: 20px;
+  margin-top: 20px !important;
+  margin-bottom: 20px !important;
 }
 
 .footer {
@@ -384,7 +372,7 @@ a:hover {
   align-items: center;
 }
 
-.footer a{
+.footer a {
   color: var(--bgSecondary);
 }
 
