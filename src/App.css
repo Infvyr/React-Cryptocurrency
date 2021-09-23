@@ -16,6 +16,9 @@
 a:hover {
   color: var(--pink);
 }
+.navbar .ant-menu-item a.active{
+  color: var(--pink);
+}
 
 .app {
   display: grid;
@@ -30,9 +33,11 @@ a:hover {
 .main {
   width: 100%;
 }
+
 .routes {
   padding: 20px;
 }
+
 .nav-container {
   position: fixed;
   left: 0;
@@ -56,6 +61,7 @@ a:hover {
 .logo-container .logo a {
   color: rgba(255, 255, 255, 0.65);
 }
+
 .menu-control-container {
   display: none;
   position: absolute;
@@ -72,6 +78,7 @@ a:hover {
   justify-content: center;
   align-items: center;
 }
+
 
 @media screen and (max-width: 1170px) {
   .news-image-container {
