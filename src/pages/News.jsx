@@ -34,8 +34,9 @@ const News = ({ simplified }) => {
             optionFilterProp="children"
             showSearch
             onChange={handleSelectNews}
-            filterOption={(input, option) =>
-              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            filterOption={(inputValue, option) =>
+              option.children.toLowerCase().indexOf(inputValue.toLowerCase()) >=
+              0
             }
           >
             <Option value="Cryptocurrency">All</Option>
