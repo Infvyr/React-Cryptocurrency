@@ -36,35 +36,38 @@ const News = ({ simplified }) => {
 
 	return (
 		<Row gutter={[24, 24]}>
-			<Col>
-				<Title level={1}>Crypto News</Title>
-				<Breadcrumb>
-					<Breadcrumb.Item>
-						<Link to="/">Home</Link>
-					</Breadcrumb.Item>
-					<Breadcrumb.Item>News</Breadcrumb.Item>
-				</Breadcrumb>
-			</Col>
 			{!simplified && (
-				<Col span={24}>
-					<Select
-						className="select-news"
-						placeholder="Select a category"
-						optionFilterProp="children"
-						showSearch
-						onChange={handleSelectNews}
-						filterOption={(inputValue, option) =>
-							option.children.toLowerCase().indexOf(inputValue.toLowerCase()) >=
-							0
-						}>
-						<Option value="Cryptocurrency">All</Option>
-						{data?.data?.coins.map(coin => (
-							<Option value={coin.name} key={coin.id}>
-								{coin.name}
-							</Option>
-						))}
-					</Select>
-				</Col>
+				<>
+					<Col>
+						<Title level={1}>Crypto News</Title>
+						<Breadcrumb>
+							<Breadcrumb.Item>
+								<Link to="/">Home</Link>
+							</Breadcrumb.Item>
+							<Breadcrumb.Item>News</Breadcrumb.Item>
+						</Breadcrumb>
+					</Col>
+					<Col span={24}>
+						<Select
+							className="select-news"
+							placeholder="Select a category"
+							optionFilterProp="children"
+							showSearch
+							onChange={handleSelectNews}
+							filterOption={(inputValue, option) =>
+								option.children
+									.toLowerCase()
+									.indexOf(inputValue.toLowerCase()) >= 0
+							}>
+							<Option value="Cryptocurrency">All</Option>
+							{data?.data?.coins.map(coin => (
+								<Option value={coin.name} key={coin.id}>
+									{coin.name}
+								</Option>
+							))}
+						</Select>
+					</Col>
+				</>
 			)}
 			{cryptoNews.value.map((news, i) => (
 				<Col xs={24} lg={12} xxl={6} key={i}>
