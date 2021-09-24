@@ -1,83 +1,91 @@
-import { useState, useEffect } from 'react';
-import { Button, Menu, Typography, Avatar } from 'antd';
-import { NavLink, Link } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { Button, Typography, Avatar } from "antd";
+import { Link } from "react-router-dom";
 import {
-	HomeOutlined,
-	MoneyCollectOutlined,
-	FundOutlined,
-	MenuOutlined,
-	ReadOutlined,
-} from '@ant-design/icons';
+  HomeOutlined,
+  MoneyCollectOutlined,
+  FundOutlined,
+  MenuOutlined,
+  ReadOutlined,
+  CloseOutlined,
+} from "@ant-design/icons";
 
-import icon from '../images/cryptocurrency.svg';
+import { Navigation } from "./";
+
+import icon from "../images/cryptocurrency.svg";
 
 const Navbar = () => {
-	const menuItems = [
-		{ id: 1, icon: <HomeOutlined />, url: '/', title: 'Home' },
-		{
-			id: 2,
-			icon: <FundOutlined />,
-			url: '/cryptocurrencies',
-			title: 'Cryptocurrencies',
-		},
-		{
-			id: 3,
-			icon: <MoneyCollectOutlined />,
-			url: '/exchanges',
-			title: 'Exchanges',
-		},
-		{ id: 4, icon: <ReadOutlined />, url: '/news', title: 'News' },
-	];
+  const menuItems = [
+    { id: 1, icon: <HomeOutlined />, url: "/", title: "Home" },
+    {
+      id: 2,
+      icon: <FundOutlined />,
+      url: "/cryptocurrencies",
+      title: "Cryptocurrencies",
+    },
+    {
+      id: 3,
+      icon: <MoneyCollectOutlined />,
+      url: "/exchanges",
+      title: "Exchanges",
+    },
+    { id: 4, icon: <ReadOutlined />, url: "/news", title: "News" },
+  ];
 
-	const [activeMenu, setActiveMenu] = useState(true);
-	const [screenSize, setScreenSize] = useState(undefined);
+  const [activeMenu, setActiveMenu] = useState(true);
+  const [screenSize, setScreenSize] = useState(undefined);
 
-	useEffect(() => {
-		const handleResize = () => setScreenSize(window.innerWidth);
-		window.addEventListener('resize', handleResize);
-		handleResize();
+  useEffect(() => {
+    const handleResize = () => setScreenSize(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    handleResize();
 
-		return () => {
-			window.removeEventListener('resize', handleResize);
-		};
-	}, []);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
-	useEffect(() => {
-		if (screenSize < 992) {
-			setActiveMenu(false);
-		} else {
-			setActiveMenu(true);
-		}
-	}, [screenSize]);
+  useEffect(() => {
+    if (screenSize < 992) {
+      setActiveMenu(false);
+    } else {
+      setActiveMenu(true);
+    }
+  }, [screenSize]);
 
-	return (
-		<header className="nav-container">
-			<div className="logo-container">
-				<Avatar src={icon} size="large" />
-				<Typography.Title level={2} className="logo">
-					<Link to="/">Crypto App</Link>
-				</Typography.Title>
-				{!activeMenu && (
-					<Button
-						className="menu-control-container"
-						onClick={() => setActiveMenu(!activeMenu)}>
-						<MenuOutlined />
-					</Button>
-				)}
-			</div>
-			{activeMenu && (
-				<Menu theme="dark" selectable={false}>
-					{menuItems.map(item => (
-						<Menu.Item icon={item.icon} key={item.id}>
-							<NavLink to={item.url} activeClassName="active" exact>
-								{item.title}
-							</NavLink>
-						</Menu.Item>
-					))}
-				</Menu>
-			)}
-		</header>
-	);
+  return (
+    <>
+      <header className="nav-container">
+        <div className="logo-container">
+          <Avatar src={icon} size="large" />
+          <Typography.Title level={2} className="logo">
+            <Link to="/">Crypto App</Link>
+          </Typography.Title>
+        </div>
+        <Button
+          ghost
+          className="menu-control-container"
+          onClick={() => setActiveMenu(!activeMenu)}
+        >
+          {!activeMenu ? <MenuOutlined /> : <CloseOutlined />}
+        </Button>
+        {activeMenu && (
+          <Navigation
+            type="desktop-menu"
+            items={menuItems}
+            setActiveMenu={setActiveMenu}
+          />
+        )}
+        {activeMenu && (
+          <Navigation
+            type="mobile-menu"
+            items={menuItems}
+            setActiveMenu={setActiveMenu}
+          />
+        )}
+      </header>
+    </>
+  );
 };
 
 export default Navbar;
