@@ -29,14 +29,17 @@ const News = ({ simplified }) => {
   });
   const { data } = useGetCryptosQuery(100);
   const [visible, setVisible] = useState(8);
+  const [loading, setLoading] = useState(false);
 
   const handleSelectNews = value => {
     setNewsCategory(value);
   };
 
   const loadMore = () => {
+    setLoading(true);
     setTimeout(() => {
       setVisible(visible + 4);
+      setLoading(false);
     }, 1000);
   };
 
@@ -48,7 +51,9 @@ const News = ({ simplified }) => {
         {!simplified && (
           <>
             <Col>
-              <Title level={1}>Crypto News</Title>
+              <Title level={1} className="heading">
+                Crypto News
+              </Title>
               <Breadcrumb>
                 <Breadcrumb.Item>
                   <Link to="/">Home</Link>
@@ -123,7 +128,9 @@ const News = ({ simplified }) => {
         <Row align="center">
           {visible < cryptoNews?.value?.length && (
             <div style={{ margin: "2rem 0" }}>
-              <Button onClick={loadMore}>Load more</Button>
+              <Button loading={loading} onClick={loadMore}>
+                Load more
+              </Button>
             </div>
           )}
         </Row>

@@ -60,10 +60,7 @@ a:hover {
 
 .menu-control-container {
   display: none !important;
-  /* position: absolute; */
   right: 20px;
-  /* margin: 0; */
-  /* z-index: 66; */
 }
 
 .loader {
@@ -96,7 +93,7 @@ a:hover {
 
 @media screen and (max-width: 800px) {
   .home-title {
-    font-size: 1.4rem;
+    font-size: 1.4rem !important;
   }
 
   .show-more {
@@ -112,7 +109,6 @@ a:hover {
 .coin-heading-container {
   display: flex;
   justify-content: center;
-  align-items: center;
   flex-direction: column;
   border-bottom: 1px solid var(--border);
   padding-top: 20px;
@@ -175,10 +171,14 @@ a:hover {
   opacity: 0.9;
 }
 
+.stats-container,
+.coin-desc-link {
+  margin-top: 20px;
+}
+
 .coin-desc-link {
   display: flex;
   gap: 40px;
-  margin-top: 40px;
   padding-top: 20px;
 }
 
@@ -327,7 +327,7 @@ a:hover {
   margin-top: 40px;
 }
 .show-more {
-  margin-top: 0px;
+  margin-top: 0px !important;
 }
 .exchange-image {
   margin: 0px 10px;
@@ -359,12 +359,6 @@ a:hover {
   color: var(--bgSecondary);
 }
 
-@media (min-width: 992px) {
-  .mobile-menu {
-    display: none;
-  }
-}
-
 @media (max-width: 992px) {
   .app {
     grid-template-columns: 1fr;
@@ -391,11 +385,8 @@ a:hover {
     display: block !important;
   }
 
-  .menu-control-container + .desktop-menu {
-    display: none;
-  }
-
-  .mobile-menu {
+  .mobile-menu,
+  .app-menu {
     position: absolute;
     top: 80px;
     left: 0;
@@ -403,11 +394,73 @@ a:hover {
 
     animation: slideTop ease-in-out 200ms;
   }
+
+  .mobile-menu.active {
+    animation: slideTop ease-in-out 200ms;
+  }
 }
 
 @media (min-width: 640px) {
   .search-crypto {
     width: 30%;
+  }
+}
+
+@media (max-width: 360px) {
+  .logo {
+    font-size: 1.4rem !important;
+  }
+
+  .heading {
+    font-size: 1.6rem !important;
+  }
+
+  .coin-name,
+  .chart-title {
+    font-size: 1.35rem !important;
+  }
+
+  .coin-details-heading {
+    font-size: 1.25rem !important;
+  }
+
+  .coin-stats,
+  .coin-link {
+    padding: 15px;
+  }
+
+  .coin-desc-link {
+    margin-top: 0;
+    gap: 20px;
+  }
+
+  .crypto-stats-row .ant-card {
+    height: 100%;
+  }
+
+  .crypto-stats-row .ant-card-body {
+    padding: 10px;
+  }
+
+  .crypto-stats-row .ant-statistic-title {
+    font-size: 12px;
+  }
+
+  .crypto-stats-row .ant-statistic-content-value-int,
+  .crypto-stats-row .ant-statistic-content-value {
+    font-size: 1.2rem;
+  }
+
+  .home-title {
+    font-size: 1.2rem !important;
+  }
+
+  .routes {
+    padding: 20px 15px;
+  }
+
+  canvas {
+    width: 100% !important;
   }
 }
 

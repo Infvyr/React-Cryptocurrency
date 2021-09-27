@@ -33,6 +33,7 @@ const CryptoDetails = () => {
     coinId,
     timePeriod,
   });
+
   const cryptoDetails = data?.data?.coin;
 
   if (isFetching) return <Skeleton active />;
@@ -41,22 +42,31 @@ const CryptoDetails = () => {
 
   const stats = [
     {
+      id: 1,
       title: "Price to USD",
       value: `$ ${cryptoDetails.price && millify(cryptoDetails.price)}`,
       icon: <DollarCircleOutlined />,
     },
-    { title: "Rank", value: cryptoDetails.rank, icon: <NumberOutlined /> },
     {
+      id: 2,
+      title: "Rank",
+      value: cryptoDetails.rank,
+      icon: <NumberOutlined />,
+    },
+    {
+      id: 3,
       title: "24h Volume",
       value: `$ ${cryptoDetails.volume && millify(cryptoDetails.volume)}`,
       icon: <ThunderboltOutlined />,
     },
     {
+      id: 4,
       title: "Market Cap",
       value: `$ ${cryptoDetails.marketCap && millify(cryptoDetails.marketCap)}`,
       icon: <DollarCircleOutlined />,
     },
     {
+      id: 5,
       title: "All-time-high(daily avg.)",
       value: `$ ${millify(cryptoDetails.allTimeHigh.price)}`,
       icon: <TrophyOutlined />,
@@ -65,16 +75,19 @@ const CryptoDetails = () => {
 
   const genericStats = [
     {
+      id: 1,
       title: "Number Of Markets",
       value: cryptoDetails.numberOfMarkets,
       icon: <FundOutlined />,
     },
     {
+      id: 2,
       title: "Number Of Exchanges",
       value: cryptoDetails.numberOfExchanges,
       icon: <MoneyCollectOutlined />,
     },
     {
+      id: 3,
       title: "Aprroved Supply",
       value: cryptoDetails.approvedSupply ? (
         <CheckOutlined />
@@ -84,11 +97,13 @@ const CryptoDetails = () => {
       icon: <ExclamationCircleOutlined />,
     },
     {
+      id: 4,
       title: "Total Supply",
       value: `$ ${millify(cryptoDetails.totalSupply)}`,
       icon: <ExclamationCircleOutlined />,
     },
     {
+      id: 5,
       title: "Circulating Supply",
       value: `$ ${millify(cryptoDetails.circulatingSupply)}`,
       icon: <ExclamationCircleOutlined />,
@@ -98,7 +113,9 @@ const CryptoDetails = () => {
   return (
     <Col className="coin-detail-container">
       <Col>
-        <Typography.Title level={1}>{cryptoDetails.name}</Typography.Title>
+        <Typography.Title level={1} className="heading">
+          {cryptoDetails.name}
+        </Typography.Title>
         <Breadcrumb>
           <Breadcrumb.Item>
             <Link to="/">Home</Link>
@@ -144,8 +161,8 @@ const CryptoDetails = () => {
               as the base and quote currency, the rank, and trading volume.
             </p>
           </Col>
-          {stats.map(({ uuid, icon, title, value }) => (
-            <Col className="coin-stats" key={uuid}>
+          {stats.map(({ id, icon, title, value }) => (
+            <Col className="coin-stats" key={id}>
               <Col className="coin-stats-name">
                 <Text>{icon}</Text>
                 <Text>{title}</Text>
@@ -164,8 +181,8 @@ const CryptoDetails = () => {
               as the base and quote currency, the rank, and trading volume.
             </p>
           </Col>
-          {genericStats.map(({ uuid, icon, title, value }) => (
-            <Col className="coin-stats" key={uuid}>
+          {genericStats.map(({ id, icon, title, value }) => (
+            <Col className="coin-stats" key={id}>
               <Col className="coin-stats-name">
                 <Text>{icon}</Text>
                 <Text>{title}</Text>

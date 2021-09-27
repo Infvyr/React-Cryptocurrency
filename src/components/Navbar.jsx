@@ -53,13 +53,21 @@ const Navbar = () => {
     }
   }, [screenSize]);
 
+  function handleClick() {
+    if (screenSize < 992) {
+      setActiveMenu(prevState => !prevState);
+    }
+  }
+
   return (
     <>
       <header className="nav-container">
         <div className="logo-container">
           <Avatar src={icon} size="large" />
           <Typography.Title level={2} className="logo">
-            <Link to="/">Crypto App</Link>
+            <Link to="/" title="Crypto App">
+              Crypto App
+            </Link>
           </Typography.Title>
         </div>
         <Button
@@ -69,19 +77,9 @@ const Navbar = () => {
         >
           {!activeMenu ? <MenuOutlined /> : <CloseOutlined />}
         </Button>
+
         {activeMenu && (
-          <Navigation
-            type="desktop-menu"
-            items={menuItems}
-            setActiveMenu={setActiveMenu}
-          />
-        )}
-        {activeMenu && (
-          <Navigation
-            type="mobile-menu"
-            items={menuItems}
-            setActiveMenu={setActiveMenu}
-          />
+          <Navigation items={menuItems} handleClick={handleClick} />
         )}
       </header>
     </>

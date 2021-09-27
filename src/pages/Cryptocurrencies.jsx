@@ -34,10 +34,11 @@ const Cryptocurrencies = ({ simplified }) => {
   }, [cryptoList, searchTerm]);
 
   const loadMore = () => {
-    setTimeout(() => {
-      setVisible(visible + 10);
-    }, 1000);
     setLoading(true);
+    setTimeout(() => {
+      setVisible(visible + 4);
+      setLoading(false);
+    }, 1000);
   };
 
   if (isFetching) return <Skeleton active />;
@@ -47,7 +48,9 @@ const Cryptocurrencies = ({ simplified }) => {
       {!simplified && (
         <>
           <Col>
-            <Typography.Title level={1}>Cryptocurrencies</Typography.Title>
+            <Typography.Title level={1} className="heading">
+              Cryptocurrencies
+            </Typography.Title>
             <Breadcrumb>
               <Breadcrumb.Item>
                 <Link to="/">Home</Link>
@@ -101,7 +104,7 @@ const Cryptocurrencies = ({ simplified }) => {
         <Row align="center">
           {visible < cryptos?.length && (
             <div style={{ margin: "2rem 0" }}>
-              <Button loading={loading ? true : false} onClick={loadMore}>
+              <Button loading={loading} onClick={loadMore}>
                 Load more
               </Button>
             </div>
