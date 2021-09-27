@@ -15,11 +15,18 @@ export const cryptoNewsApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl }),
   endpoints: builder => ({
     getCryptosNews: builder.query({
-      query: ({ newsCategory, count }) =>
+      query: ({ newsCategory, count, sortby }) =>
         createRequest(
-          `/news/search?q=${newsCategory}&safeSearch=Off&textFormat=Raw&freshness=Day&count=${count}`
+          `/news/search?q=${newsCategory}&safeSearch=Off&textFormat=Raw&freshness=Day&count=${count}&sortby=${sortby}`
         ),
     }),
+
+    // sortCryptosNewsByDate: builder.query({
+    //   query: ({ newsCategory, count }) =>
+    //     createRequest(
+    //       `/news/search?q=${newsCategory}&safeSearch=Off&textFormat=Raw&freshness=Day&count=${count}&sortby=date`
+    //     ),
+    // }),
   }),
 });
 

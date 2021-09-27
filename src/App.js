@@ -1,5 +1,5 @@
 import { Switch, Route } from "react-router-dom";
-import { Layout } from "antd";
+import { BackTop, Layout } from "antd";
 
 import { Navbar, Footer } from "./components";
 import {
@@ -10,6 +10,8 @@ import {
   News,
 } from "./pages";
 import "./App.css";
+
+import { RocketOutlined } from "@ant-design/icons";
 
 const App = () => {
   const routes = [
@@ -49,6 +51,12 @@ const App = () => {
         </Layout>
       </div>
       <Footer />
+
+      <BackTop>
+        <div className="back-top-wrapper">
+          <RocketOutlined />
+        </div>
+      </BackTop>
     </div>
   );
 };
