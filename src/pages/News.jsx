@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   Select,
@@ -10,6 +10,7 @@ import {
   Skeleton,
   Breadcrumb,
   Button,
+  Space,
 } from "antd";
 import moment from "moment";
 
@@ -23,10 +24,20 @@ const { Option } = Select;
 
 const News = ({ simplified }) => {
   const [newsCategory, setNewsCategory] = useState("Crytocurrency");
+  const [sortby, setSortBy] = useState("");
+
+  // const [sortType, setSortType] = useState("default");
   const { data: cryptoNews } = useGetCryptosNewsQuery({
     newsCategory,
     count: simplified ? 4 : 24,
+    sortby,
   });
+
+  // const { data: news } = useSortCryptosNewsByDateQuery({
+  //   newsCategory,
+  //   count: simplified ? 4 : 24,
+  // });
+
   const { data } = useGetCryptosQuery(100);
   const [visible, setVisible] = useState(8);
   const [loading, setLoading] = useState(false);
@@ -34,6 +45,31 @@ const News = ({ simplified }) => {
   const handleSelectNews = value => {
     setNewsCategory(value);
   };
+
+  console.log(cryptoNews);
+
+  const handleSortNews = value => {
+    setSortBy(value);
+  };
+
+  // useEffect(() => {
+  //   const sortArray = type => {
+  //     const types = {
+  //       default: "default",
+  //       alphaAsc: "az",
+  //       alphaDesc: "za",
+  //       recent: "recent",
+  //       older: "older",
+  //     };
+  //     const sortProperty = types[type];
+  //     const sorted = [...cryptoNews.value].sort(
+  //       (a, b) => b[sortProperty] - a[sortProperty]
+  //     );
+  //     setSortType(sorted);
+  //   };
+
+  //   sortArray(sortType);
+  // }, [cryptoNews.value, sortType]);
 
   const loadMore = () => {
     setLoading(true);
@@ -62,25 +98,55 @@ const News = ({ simplified }) => {
               </Breadcrumb>
             </Col>
             <Col span={24}>
-              <Select
-                className="select-news"
-                placeholder="Select a category"
-                optionFilterProp="children"
-                showSearch
-                onChange={handleSelectNews}
-                filterOption={(inputValue, option) =>
-                  option.children
-                    .toLowerCase()
-                    .indexOf(inputValue.toLowerCase()) >= 0
-                }
-              >
-                <Option value="Cryptocurrency">All</Option>
-                {data?.data?.coins.map(coin => (
-                  <Option value={coin.name} key={coin.id}>
-                    {coin.name}
-                  </Option>
-                ))}
-              </Select>
+              <Space size="small">
+                <Select
+                  className="select-news"
+                  placeholder="Select a category"
+                  optionFilterProp="children"
+                  showSearch
+                  onChange={handleSelectNews}
+                  filterOption={(inputValue, option) =>
+                    option.children
+                      .toLowerCase()
+                      .indexOf(inputValue.toLowerCase()) >= 0
+                  }
+                >
+                  <Option value="Cryptocurrency">All</Option>
+                  {data?.data?.coins.map(coin => (
+                    <Option value={coin.name} key={coin.id}>
+                      {coin.name}
+                    </Option>
+                  ))}
+                </Select>
+
+                <Select
+                  style={{ width: 200 }}
+                  placeholder="Sort by"
+                  optionFilterProp="children"
+                  onChange={handleSortNews}
+                  filterOption={(input, option) =>
+                    option.children
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
+                  }
+                  filterSort={(optionA, optionB) =>
+                    optionA.children
+                      .toLowerCase()
+                      .localeCompare(optionB.children.toLowerCase())
+                  }
+                >
+                  <Option value="relevance">Relevance</Option>
+                  <Option value="date">Date</Option>
+                </Select>
+                <Select
+                  style={{ width: 200 }}
+                  placeholder="Order"
+                  optionFilterProp="children"
+                >
+                  <Option value="az">A-{">"}Z</Option>
+                  <Option value="za">Z-{">"}A</Option>
+                </Select>
+              </Space>
             </Col>
           </>
         )}

@@ -359,6 +359,22 @@ a:hover {
   color: var(--bgSecondary);
 }
 
+.ant-back-top {
+  right: 1rem !important;
+  bottom: 1rem !important;
+}
+
+.back-top-wrapper {
+  height: 40px;
+  width: 40px;
+  line-height: 40px;
+  border-radius: 3px;
+  background-color: #0071bd;
+  color: #fff;
+  text-align: center;
+  font-size: 18px;
+}
+
 @media (max-width: 992px) {
   .app {
     grid-template-columns: 1fr;
@@ -461,6 +477,17 @@ a:hover {
 
   canvas {
     width: 100% !important;
+  }
+
+  .ant-back-top {
+    width: 30px !important;
+    height: 30px !important;
+  }
+
+  .ant-back-top > div {
+    width: inherit !important;
+    height: inherit !important;
+    line-height: 30px !important;
   }
 }
 
