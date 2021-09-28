@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import {
 	Typography,
@@ -22,9 +22,9 @@ const { Text, Title } = Typography;
 const News = ({ simplified }) => {
 	const [newsCategory, setNewsCategory] = useState('Crytocurrency');
 	const [sortBy, setSortBy] = useState('');
-	const [orderedNews, setOrderedNews] = useState('default');
+	const [orderedNews, setOrderedNews] = useState([]);
 
-	const { data: cryptoNews } = useGetCryptosNewsQuery({
+	const { data: cryptoNews = [] } = useGetCryptosNewsQuery({
 		newsCategory,
 		count: simplified ? 4 : 24,
 		sortBy,
@@ -42,6 +42,16 @@ const News = ({ simplified }) => {
 		setSortBy(value);
 	};
 
+	const orderNews = useMemo(() => {
+		// const orderedNews = cryptoNews.value.slice();
+		// // sort news desc chronological order
+		// orderedNews.sort((a, b) => b.datePublished.localeCompare(a.datePublished));
+		// return orderedNews;
+		const arrCopy = [].concat(cryptoNews.value);
+		arrCopy.sort((a, b) => (a.name > b.name ? 1 : -1));
+		return arrCopy;
+	}, [cryptoNews.value]);
+
 	const handleOrderNews = value => {
 		const orderByAsc = []
 			.concat(cryptoNews.value)
@@ -53,9 +63,10 @@ const News = ({ simplified }) => {
 
 		switch (value) {
 			case 'asc':
-				setOrderedNews(value);
+				setOrderedNews(orderByAsc);
 				console.log(orderByAsc); // array
-				return orderByAsc;
+				break;
+			// return orderByAsc;
 
 			case 'desc':
 				setOrderedNews(value);
@@ -66,8 +77,7 @@ const News = ({ simplified }) => {
 		}
 	};
 
-	console.log(`Sort: ${sortBy}`);
-	console.log(`Order: ${orderedNews}`);
+	// console.log(cryptoNews.value);
 
 	const loadMore = () => {
 		setLoading(true);
@@ -102,7 +112,7 @@ const News = ({ simplified }) => {
 						/>
 					</>
 				)}
-				{cryptoNews.value.slice(0, visible).map((news, i) => (
+				{orderNews.slice(0, visible).map((news, i) => (
 					<Col xs={24} md={12} xxl={6} key={i}>
 						<Card hoverable className="news-card">
 							<a href={news.url} target="_blank" rel="noreferrer">
