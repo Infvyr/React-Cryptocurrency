@@ -339,9 +339,6 @@ a:hover {
 .exchange-image {
   margin: 0px 10px;
 }
-.search-crypto {
-  margin: 20px 0 30px;
-}
 .crypto-card .crypto-image {
   width: 35px;
   height: 35px;
@@ -380,6 +377,21 @@ a:hover {
   color: #fff;
   text-align: center;
   font-size: 18px;
+}
+
+.cryptocurrency-filter {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 20px 0 30px;
+}
+.cryptocurrency-filter .ant-select-selector {
+  min-height: inherit;
+}
+.cryptocurrency-filter .ant-select-selection-placeholder,
+.cryptocurrency-filter .ant-select-selection-item {
+  display: flex;
+  align-items: center;
 }
 
 @media (max-width: 992px) {
