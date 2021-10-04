@@ -5,6 +5,15 @@
   --pink: #0071bd;
   --light-blue: #e6f7ff;
   --border: #d9d9d9;
+  --initialHeight: 60px;
+  --finalHeight: 80px;
+}
+
+@media (max-width: 576px) {
+  :root {
+    --initialHeight: 30px;
+    --finalHeight: 50px;
+  }
 }
 
 * {
@@ -252,8 +261,6 @@ a:hover {
   .coin-detail-container {
     margin: 0;
   }
-}
-@media screen and (max-width: 500px) {
   .heading {
     margin-top: 20px;
   }
@@ -416,6 +423,34 @@ a:hover {
   }
 }
 
+@media (max-width: 576px) {
+  .main {
+    margin-top: 30px;
+  }
+  .logo-container .logo {
+    font-size: 1.4rem;
+  }
+  .logo-container {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+
+  .mobile-menu,
+  .app-menu {
+    top: 50px;
+  }
+
+  .news-filter-container > div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+  .news-filter-container div {
+    width: 100% !important;
+  }
+}
+
 @media (min-width: 640px) {
   .search-crypto {
     width: 30%;
@@ -493,11 +528,11 @@ a:hover {
 
 @keyframes slideTop {
   0% {
-    top: 60px;
+    top: var(--initialHeight);
     opacity: 0;
   }
   100% {
-    top: 80px;
+    top: var(--finalHeight);
     opacity: 1;
   }
 }

@@ -1,170 +1,109 @@
-import { useState, useMemo } from 'react';
-import { Link } from 'react-router-dom';
-import {
-	Typography,
-	Row,
-	Col,
-	Avatar,
-	Card,
-	Skeleton,
-	Breadcrumb,
-	Button,
-} from 'antd';
-import moment from 'moment';
-import Filter from '../components/Filter';
+import { useState, useMemo, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Row, Skeleton, Breadcrumb, Col, Typography } from "antd";
+import { NewsFilter, LoadMore, NewsContainer } from "../components";
 
-import { useGetCryptosNewsQuery } from '../services/cryptoNewsApi';
-
-import demoImage from '../images/demo-image.jpeg';
-
-const { Text, Title } = Typography;
+import { useGetCryptosNewsQuery } from "../services/cryptoNewsApi";
 
 const News = ({ simplified }) => {
-	const [newsCategory, setNewsCategory] = useState('Crytocurrency');
-	const [sortBy, setSortBy] = useState('');
-	const [orderedNews, setOrderedNews] = useState([]);
+  const [visible, setVisible] = useState(8);
+  const [newsCategory, setNewsCategory] = useState("Crytocurrency");
+  const [sortBy, setSortBy] = useState("");
 
-	const { data: cryptoNews = [] } = useGetCryptosNewsQuery({
-		newsCategory,
-		count: simplified ? 4 : 24,
-		sortBy,
-		orderedNews,
-	});
+  const { data: cryptoNews = [] } = useGetCryptosNewsQuery({
+    newsCategory,
+    count: simplified ? 4 : 24,
+    sortBy,
+  });
+  const [orderedNews, setOrderedNews] = useState([]);
 
-	const [visible, setVisible] = useState(8);
-	const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    if (cryptoNews?.value?.length) {
+      setOrderedNews(cryptoNews.value);
+    }
+  }, [cryptoNews.value]);
 
-	const handleSelectNews = value => {
-		setNewsCategory(value);
-	};
+  // handle category dropdown
+  const handleSelectNews = value => {
+    setNewsCategory(value);
+  };
 
-	const handleSortNews = value => {
-		setSortBy(value);
-	};
+  // handle sort by dropdown
+  const handleSortNews = value => {
+    setSortBy(value);
+  };
 
-	const orderNews = useMemo(() => {
-		// const orderedNews = cryptoNews.value.slice();
-		// // sort news desc chronological order
-		// orderedNews.sort((a, b) => b.datePublished.localeCompare(a.datePublished));
-		// return orderedNews;
-		const arrCopy = [].concat(cryptoNews.value);
-		arrCopy.sort((a, b) => (a.name > b.name ? 1 : -1));
-		return arrCopy;
-	}, [cryptoNews.value]);
+  // handle order by
+  const memoizedDefaultOrder = useMemo(() => {
+    return [].concat(cryptoNews.value);
+  }, [cryptoNews.value]);
 
-	const handleOrderNews = value => {
-		const orderByAsc = []
-			.concat(cryptoNews.value)
-			.sort((a, b) => (a.name > b.name ? 1 : -1));
+  const memoizedAscOrder = useMemo(() => {
+    const orderByAsc = []
+      .concat(cryptoNews.value)
+      .sort((a, b) => (a.name > b.name ? 1 : -1));
+    return orderByAsc;
+  }, [cryptoNews.value]);
 
-		const orderByDesc = []
-			.concat(cryptoNews.value)
-			.sort((a, b) => (b.name < a.name ? -1 : 1));
+  const memoizedDescOrder = useMemo(() => {
+    const orderByDesc = []
+      .concat(cryptoNews.value)
+      .sort((a, b) => (b.name < a.name ? -1 : 1));
+    return orderByDesc;
+  }, [cryptoNews.value]);
 
-		switch (value) {
-			case 'asc':
-				setOrderedNews(orderByAsc);
-				console.log(orderByAsc); // array
-				break;
-			// return orderByAsc;
+  const handleOrderNews = value => {
+    switch (value) {
+      case "asc":
+        setOrderedNews(memoizedAscOrder);
+        break;
 
-			case 'desc':
-				setOrderedNews(value);
-				break;
-			default:
-				setOrderedNews('default');
-				break;
-		}
-	};
+      case "desc":
+        setOrderedNews(memoizedDescOrder);
+        break;
 
-	// console.log(cryptoNews.value);
+      default:
+        setOrderedNews(memoizedDefaultOrder);
+        break;
+    }
+  };
 
-	const loadMore = () => {
-		setLoading(true);
-		setTimeout(() => {
-			setVisible(visible + 4);
-			setLoading(false);
-		}, 1000);
-	};
+  if (!cryptoNews?.value) return <Skeleton active />;
 
-	if (!cryptoNews?.value) return <Skeleton active />;
-
-	return (
-		<>
-			<Row gutter={[24, 24]}>
-				{!simplified && (
-					<>
-						<Col>
-							<Title level={1} className="heading">
-								Crypto News
-							</Title>
-							<Breadcrumb>
-								<Breadcrumb.Item>
-									<Link to="/">Home</Link>
-								</Breadcrumb.Item>
-								<Breadcrumb.Item>News</Breadcrumb.Item>
-							</Breadcrumb>
-						</Col>
-						<Filter
-							handleSelectNews={handleSelectNews}
-							handleSortNews={handleSortNews}
-							handleOrderNews={handleOrderNews}
-						/>
-					</>
-				)}
-				{orderNews.slice(0, visible).map((news, i) => (
-					<Col xs={24} md={12} xxl={6} key={i}>
-						<Card hoverable className="news-card">
-							<a href={news.url} target="_blank" rel="noreferrer">
-								<div className="news-image-container">
-									<Title className="news-title" level={4}>
-										{news.name}
-									</Title>
-									<img
-										src={news?.image?.thumbnail?.contentUrl || demoImage}
-										alt={news.name}
-									/>
-								</div>
-								<p>
-									{news.description > 100
-										? `${news.description.substring(0, 100)}`
-										: news.description}
-								</p>
-								<div className="provider-container">
-									<div className="provider-meta">
-										<Avatar
-											src={
-												news.provider[0]?.image?.thumbnail?.contentUrl ||
-												demoImage
-											}
-											alt="news"
-										/>
-										<Text className="provider-name">
-											{news.provider[0]?.name}
-										</Text>
-										<Text italic={true} type="secondary">
-											{moment(news.datePublished).startOf('ss').fromNow()}
-										</Text>
-									</div>
-								</div>
-							</a>
-						</Card>
-					</Col>
-				))}
-			</Row>
-			{!simplified && (
-				<Row align="center">
-					{visible < cryptoNews?.value?.length && (
-						<div style={{ margin: '2rem 0' }}>
-							<Button loading={loading} onClick={loadMore}>
-								Load more
-							</Button>
-						</div>
-					)}
-				</Row>
-			)}
-		</>
-	);
+  return (
+    <>
+      <Row gutter={[24, 24]}>
+        {!simplified && (
+          <>
+            <Col>
+              <Typography.Title level={1} className="heading">
+                Crypto News
+              </Typography.Title>
+              <Breadcrumb>
+                <Breadcrumb.Item>
+                  <Link to="/">Home</Link>
+                </Breadcrumb.Item>
+                <Breadcrumb.Item>News</Breadcrumb.Item>
+              </Breadcrumb>
+            </Col>
+            <NewsFilter
+              handleSelectNews={handleSelectNews}
+              handleSortNews={handleSortNews}
+              handleOrderNews={handleOrderNews}
+            />
+          </>
+        )}
+        <NewsContainer data={orderedNews} visible={visible} />
+      </Row>
+      {!simplified && (
+        <LoadMore
+          visible={visible}
+          data={cryptoNews?.value}
+          setVisible={setVisible}
+        />
+      )}
+    </>
+  );
 };
 
 export default News;

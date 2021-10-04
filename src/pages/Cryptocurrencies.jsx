@@ -12,6 +12,7 @@ import {
   Button,
   Empty,
 } from "antd";
+import { LoadMore } from "../components";
 
 import { SearchOutlined } from "@ant-design/icons";
 
@@ -22,8 +23,6 @@ const Cryptocurrencies = ({ simplified }) => {
   const { data: cryptoList, isFetching } = useGetCryptosQuery(count);
   const [cryptos, setCryptos] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [loading, setLoading] = useState(false);
-
   const [visible, setVisible] = useState(10);
 
   useEffect(() => {
@@ -33,14 +32,6 @@ const Cryptocurrencies = ({ simplified }) => {
 
     setCryptos(filteredData);
   }, [cryptoList, searchTerm]);
-
-  const loadMore = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setVisible(visible + 4);
-      setLoading(false);
-    }, 1000);
-  };
 
   if (isFetching) return <Skeleton active />;
 
@@ -108,15 +99,7 @@ const Cryptocurrencies = ({ simplified }) => {
         )}
       </Row>
       {!simplified && (
-        <Row align="center">
-          {visible < cryptos?.length && (
-            <div style={{ margin: "2rem 0" }}>
-              <Button loading={loading} onClick={loadMore}>
-                Load more
-              </Button>
-            </div>
-          )}
-        </Row>
+        <LoadMore visible={visible} data={cryptos} setVisible={setVisible} />
       )}
     </>
   );
