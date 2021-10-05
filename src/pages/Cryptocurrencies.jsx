@@ -17,6 +17,8 @@ const Cryptocurrencies = ({ simplified }) => {
   const [cryptos, setCryptos] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [visible, setVisible] = useState(10);
+  const [isFilterBySelected, setIsFilterBySelected] = useState(false);
+  const [filterVal, setFilterVal] = useState([]);
 
   useEffect(() => {
     const filteredData = cryptoList?.data?.coins.filter(coin =>
@@ -26,27 +28,30 @@ const Cryptocurrencies = ({ simplified }) => {
     setCryptos(filteredData);
   }, [cryptoList, searchTerm]);
 
+  const arr = ["price", "marketCap", "change"];
+
   // handle the filter dropdown by
   const handleFilterBy = value => {
     switch (value) {
       case "price":
-        setCryptos([].concat(cryptos).filter(item => item.price));
-        console.log("Filter By " + value);
+        // case "marketCap":
+        // case "change":
+        // setCryptos([].concat(cryptos).filter(item => item.price));
+        setIsFilterBySelected(true);
         break;
 
-      case "market_cap":
-        setCryptos([].concat(cryptos).filter(item => item.marketCap));
-        console.log("Filter By " + value);
+      case "marketCap":
+        // setCryptos([].concat(cryptos).filter(item => item.marketCap));
+        setIsFilterBySelected(true);
         break;
 
-      case "daily_change":
-        setCryptos([].concat(cryptos).filter(item => item.change));
-        console.log("Filter By " + value);
+      case "change":
+        // setCryptos([].concat(cryptos).filter(item => item.change));
+        setIsFilterBySelected(true);
         break;
 
       default:
-        setCryptos();
-        console.log("Filter By" + value);
+        setCryptos(cryptoList?.data?.coins);
         break;
     }
   };
@@ -56,16 +61,20 @@ const Cryptocurrencies = ({ simplified }) => {
     switch (value) {
       case "asc":
         setCryptos(
-          [].concat(cryptos).sort((a, b) => (a.price > b.price ? 1 : -1))
+          [].concat(cryptos).sort((a, b) => {
+            return parseFloat(a.price) > parseFloat(b.price) ? 1 : -1;
+          })
         );
-        console.log("Order By " + value);
         break;
 
       case "desc":
         setCryptos(
-          [].concat(cryptos).sort((a, b) => (b.price < a.price ? -1 : 1))
+          []
+            .concat(cryptos)
+            .sort((a, b) =>
+              parseFloat(b.price) < parseFloat(a.price) ? -1 : 1
+            )
         );
-        console.log("Order By " + value);
         break;
 
       default:
@@ -105,6 +114,7 @@ const Cryptocurrencies = ({ simplified }) => {
             <CryptocurrenciesFilter
               handleFilterBy={handleFilterBy}
               handleOrderBy={handleOrderBy}
+              isFilterBySelected={isFilterBySelected}
             />
           </Col>
         </>

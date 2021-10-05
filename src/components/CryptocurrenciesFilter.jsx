@@ -2,7 +2,11 @@ import { Select } from "antd";
 
 const { Option } = Select;
 
-const CryptocurrenciesFilter = ({ handleFilterBy, handleOrderBy }) => {
+const CryptocurrenciesFilter = ({
+  handleFilterBy,
+  handleOrderBy,
+  isFilterBySelected,
+}) => {
   return (
     <>
       <Select
@@ -20,8 +24,8 @@ const CryptocurrenciesFilter = ({ handleFilterBy, handleOrderBy }) => {
         }
       >
         <Option value="price">Price</Option>
-        <Option value="market_cap">Market cap</Option>
-        <Option value="daily_change">Daily change</Option>
+        <Option value="marketCap">Market cap</Option>
+        <Option value="change">Daily change</Option>
       </Select>
 
       <Select
@@ -29,6 +33,7 @@ const CryptocurrenciesFilter = ({ handleFilterBy, handleOrderBy }) => {
         placeholder="Order by"
         optionFilterProp="children"
         onChange={handleOrderBy}
+        disabled={!isFilterBySelected}
         filterOption={(input, option) =>
           option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
         }
