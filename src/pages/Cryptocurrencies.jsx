@@ -1,20 +1,14 @@
 import { useState, useEffect } from "react";
-import millify from "millify";
 import { Link } from "react-router-dom";
+import { Col, Input, Skeleton, Breadcrumb, Typography } from "antd";
+
 import {
-  Card,
-  Row,
-  Col,
-  Input,
-  Skeleton,
-  Breadcrumb,
-  Typography,
-  Button,
-  Empty,
-} from "antd";
+  LoadMore,
+  CryptocurrenciesFilter,
+  CryptocurrenciesContainer,
+} from "../components";
 
 import { SearchOutlined } from "@ant-design/icons";
-
 import { useGetCryptosQuery } from "../services/cryptoApi";
 
 const Cryptocurrencies = ({ simplified }) => {
@@ -22,9 +16,9 @@ const Cryptocurrencies = ({ simplified }) => {
   const { data: cryptoList, isFetching } = useGetCryptosQuery(count);
   const [cryptos, setCryptos] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [loading, setLoading] = useState(false);
-
   const [visible, setVisible] = useState(10);
+  const [isFilterBySelected, setIsFilterBySelected] = useState(false);
+  const [filterVal, setFilterVal] = useState([]);
 
   useEffect(() => {
     const filteredData = cryptoList?.data?.coins.filter(coin =>
@@ -34,12 +28,59 @@ const Cryptocurrencies = ({ simplified }) => {
     setCryptos(filteredData);
   }, [cryptoList, searchTerm]);
 
-  const loadMore = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setVisible(visible + 4);
-      setLoading(false);
-    }, 1000);
+  const arr = ["price", "marketCap", "change"];
+
+  // handle the filter dropdown by
+  const handleFilterBy = value => {
+    switch (value) {
+      case "price":
+        // case "marketCap":
+        // case "change":
+        // setCryptos([].concat(cryptos).filter(item => item.price));
+        setIsFilterBySelected(true);
+        break;
+
+      case "marketCap":
+        // setCryptos([].concat(cryptos).filter(item => item.marketCap));
+        setIsFilterBySelected(true);
+        break;
+
+      case "change":
+        // setCryptos([].concat(cryptos).filter(item => item.change));
+        setIsFilterBySelected(true);
+        break;
+
+      default:
+        setCryptos(cryptoList?.data?.coins);
+        break;
+    }
+  };
+
+  // handle the filter dropdown by
+  const handleOrderBy = value => {
+    switch (value) {
+      case "asc":
+        setCryptos(
+          [].concat(cryptos).sort((a, b) => {
+            return parseFloat(a.price) > parseFloat(b.price) ? 1 : -1;
+          })
+        );
+        break;
+
+      case "desc":
+        setCryptos(
+          []
+            .concat(cryptos)
+            .sort((a, b) =>
+              parseFloat(b.price) < parseFloat(a.price) ? -1 : 1
+            )
+        );
+        break;
+
+      default:
+        setCryptos(cryptos);
+        break;
+    }
   };
 
   if (isFetching) return <Skeleton active />;
@@ -59,64 +100,28 @@ const Cryptocurrencies = ({ simplified }) => {
               <Breadcrumb.Item>Cryptocurrencies</Breadcrumb.Item>
             </Breadcrumb>
           </Col>
-          <div className="search-crypto">
-            <Input
-              type="search"
-              placeholder="Search Cryptocurrency"
-              size="large"
-              prefix={<SearchOutlined />}
-              allowClear
-              onChange={e => setSearchTerm(e.target.value)}
+          <Col className="cryptocurrency-filter">
+            <div className="search-crypto">
+              <Input
+                type="search"
+                placeholder="Search Cryptocurrency"
+                size="large"
+                prefix={<SearchOutlined />}
+                allowClear
+                onChange={e => setSearchTerm(e.target.value)}
+              />
+            </div>
+            <CryptocurrenciesFilter
+              handleFilterBy={handleFilterBy}
+              handleOrderBy={handleOrderBy}
+              isFilterBySelected={isFilterBySelected}
             />
-          </div>
+          </Col>
         </>
       )}
-      <Row gutter={[24, 24]} className="crypto-card-container">
-        {cryptos?.length > 2 ? (
-          cryptos?.slice(0, visible).map(currency => (
-            <Col
-              xs={24}
-              sm={12}
-              xl={6}
-              xxl={4}
-              className="crypto-card"
-              key={currency.id}
-            >
-              <Link to={`/crypto/${currency.id}`}>
-                <Card
-                  title={`${currency.rank}. ${currency.name}`}
-                  extra={
-                    <img
-                      className="crypto-image"
-                      src={currency.iconUrl}
-                      alt={currency.name}
-                    />
-                  }
-                  hoverable
-                >
-                  <p>Price: {millify(currency.price)}</p>
-                  <p>Market cap: {millify(currency.marketCap)}</p>
-                  <p>Daily change: {millify(currency.change)}%</p>
-                </Card>
-              </Link>
-            </Col>
-          ))
-        ) : (
-          <Col xs={24}>
-            <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-          </Col>
-        )}
-      </Row>
+      <CryptocurrenciesContainer data={cryptos} visible={visible} />
       {!simplified && (
-        <Row align="center">
-          {visible < cryptos?.length && (
-            <div style={{ margin: "2rem 0" }}>
-              <Button loading={loading} onClick={loadMore}>
-                Load more
-              </Button>
-            </div>
-          )}
-        </Row>
+        <LoadMore visible={visible} data={cryptos} setVisible={setVisible} />
       )}
     </>
   );
