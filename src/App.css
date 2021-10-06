@@ -242,6 +242,14 @@ a:hover {
   background-color: var(--bgSecondary);
 }
 
+.exchange-table {
+  width: 100%;
+}
+
+.exchange-table td img {
+  width: 20px;
+}
+
 @media screen and (max-width: 1000px) {
   .stats-container {
     flex-direction: column;
@@ -437,7 +445,7 @@ a:hover {
 
 @media (max-width: 576px) {
   .main {
-    margin-top: 30px;
+    margin-top: 50px;
   }
   .logo-container .logo {
     font-size: 1.4rem;
@@ -460,6 +468,9 @@ a:hover {
   }
   .news-filter-container div {
     width: 100% !important;
+  }
+  .exchange-table .ant-table-row-expand-icon-cell {
+    display: none;
   }
 }
 
