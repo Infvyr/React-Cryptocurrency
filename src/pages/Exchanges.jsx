@@ -56,8 +56,8 @@ const Exchanges = () => {
   const { data, isFetching } = useGetExchangesQuery();
   const EXCHANGES = data?.data?.exchanges;
   const STATS = data?.data?.stats;
-  const [exchanges, setExchanges] = useState([]);
-  const [stats, setStats] = useState([]);
+  const [, setExchanges] = useState([]);
+  const [, setStats] = useState([]);
 
   const tableData = [];
   for (let i = 0; i < data?.data?.exchanges.length; i++) {

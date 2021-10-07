@@ -18,7 +18,7 @@ const Cryptocurrencies = ({ simplified }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [visible, setVisible] = useState(10);
   const [isFilterBySelected, setIsFilterBySelected] = useState(false);
-  const [filterVal, setFilterVal] = useState([]);
+  // const [filterVal, setFilterVal] = useState([]);
 
   useEffect(() => {
     const filteredData = cryptoList?.data?.coins.filter(coin =>
@@ -27,8 +27,6 @@ const Cryptocurrencies = ({ simplified }) => {
 
     setCryptos(filteredData);
   }, [cryptoList, searchTerm]);
-
-  const arr = ["price", "marketCap", "change"];
 
   // handle the filter dropdown by
   const handleFilterBy = value => {
