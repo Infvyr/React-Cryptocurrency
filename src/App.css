@@ -101,7 +101,7 @@ a:hover {
 }
 
 @media screen and (max-width: 800px) {
-  .home-title {
+  .heading-title {
     font-size: 1.4rem !important;
   }
 
@@ -525,7 +525,7 @@ a:hover {
     font-size: 1.2rem;
   }
 
-  .home-title {
+  .heading-title {
     font-size: 1.2rem !important;
   }
 
