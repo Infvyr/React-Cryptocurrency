@@ -277,6 +277,12 @@ a:hover {
 .select-news {
   width: 180px;
 }
+
+.view-as-list a,
+.view-as-list a:hover,
+.view-as-list a:focus {
+  color: inherit;
+}
 .news-card {
   min-height: 300px;
   height: 100%;
@@ -447,9 +453,11 @@ a:hover {
   .main {
     margin-top: 50px;
   }
+
   .logo-container .logo {
     font-size: 1.4rem;
   }
+
   .logo-container {
     padding-top: 5px;
     padding-bottom: 5px;
@@ -466,17 +474,13 @@ a:hover {
     align-items: flex-start;
     width: 100%;
   }
+
   .news-filter-container div {
     width: 100% !important;
   }
+
   .exchange-table .ant-table-row-expand-icon-cell {
     display: none;
-  }
-}
-
-@media (min-width: 640px) {
-  .search-crypto {
-    width: 30%;
   }
 }
 
@@ -546,6 +550,20 @@ a:hover {
     width: inherit !important;
     height: inherit !important;
     line-height: 30px !important;
+  }
+}
+
+@media (min-width: 640px) {
+  .search-crypto {
+    width: 30%;
+  }
+}
+
+@media (width > 576px) {
+  /* View as, news page */
+  .view-as {
+    justify-content: flex-end;
+    width: 100%;
   }
 }
 
