@@ -23,7 +23,7 @@ For that I have used **create-react-app** together with:
 
 ### Screenshot
 
-![crypto-app](https://raw.githubusercontent.com/Infvyr/React-Cryptocurrency/main/src/images/React Cryptocurrency App.png)
+![crypto-app](https://raw.githubusercontent.com/Infvyr/React-Cryptocurrency/dev/src/images/React%20Cryptocurrency%20App.png)
 
 ---
 
