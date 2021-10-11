@@ -25,3 +25,6 @@ yarn-error.log*
 .idea
 .vscode
 .env
+
+# media
+/src/images/React Cryptocurrency App.png
