@@ -8,7 +8,7 @@ const ViewAs = () => {
 	const { view, setView } = useContext(ViewAsContext);
 
 	return (
-		<Col span={4} xs={24} sm={6} style={{ paddingRight: 0 }}>
+		<Col span={4} xs={24} sm={6}>
 			<Space size="small" className="view-as">
 				<Tooltip placement="top" title="View as list">
 					<Button
