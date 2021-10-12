@@ -19,7 +19,7 @@ const Cryptocurrencies = ({ simplified }) => {
 	const [searchTerm, setSearchTerm] = useState('');
 	const [visible, setVisible] = useState(simplified ? 10 : 12);
 	const [isFilterBySelected, setIsFilterBySelected] = useState(false);
-	// const [filterVal, setFilterVal] = useState([]);
+	const [filterVal, setFilterVal] = useState(undefined);
 
 	useEffect(() => {
 		const filteredData = cryptoList?.data?.coins.filter(coin =>
@@ -36,24 +36,15 @@ const Cryptocurrencies = ({ simplified }) => {
 	const handleFilterBy = value => {
 		switch (value) {
 			case 'price':
-				// case "marketCap":
-				// case "change":
-				// setCryptos([].concat(cryptos).filter(item => item.price));
-				setIsFilterBySelected(true);
-				break;
-
 			case 'marketCap':
-				// setCryptos([].concat(cryptos).filter(item => item.marketCap));
-				setIsFilterBySelected(true);
-				break;
-
 			case 'change':
-				// setCryptos([].concat(cryptos).filter(item => item.change));
 				setIsFilterBySelected(true);
+				setFilterVal(value);
 				break;
 
 			default:
-				setCryptos(cryptoList?.data?.coins);
+				setIsFilterBySelected(false);
+				setFilterVal('price');
 				break;
 		}
 	};
@@ -62,21 +53,61 @@ const Cryptocurrencies = ({ simplified }) => {
 	const handleOrderBy = value => {
 		switch (value) {
 			case 'asc':
-				setCryptos(
-					[].concat(cryptos).sort((a, b) => {
-						return parseFloat(a.price) > parseFloat(b.price) ? 1 : -1;
-					})
-				);
+				if (filterVal === 'price') {
+					setCryptos(
+						[].concat(cryptos).sort((a, b) => {
+							return parseFloat(a.price) > parseFloat(b.price) ? 1 : -1;
+						})
+					);
+				}
+
+				if (filterVal === 'marketCap') {
+					setCryptos(
+						[].concat(cryptos).sort((a, b) => {
+							return parseFloat(a.marketCap) > parseFloat(b.marketCap) ? 1 : -1;
+						})
+					);
+				}
+
+				if (filterVal === 'change') {
+					setCryptos(
+						[].concat(cryptos).sort((a, b) => {
+							return parseFloat(a.change) > parseFloat(b.change) ? 1 : -1;
+						})
+					);
+				}
 				break;
 
 			case 'desc':
-				setCryptos(
-					[]
-						.concat(cryptos)
-						.sort((a, b) =>
-							parseFloat(b.price) < parseFloat(a.price) ? -1 : 1
-						)
-				);
+				if (filterVal === 'price') {
+					setCryptos(
+						[]
+							.concat(cryptos)
+							.sort((a, b) =>
+								parseFloat(b.price) < parseFloat(a.price) ? -1 : 1
+							)
+					);
+				}
+
+				if (filterVal === 'marketCap') {
+					setCryptos(
+						[]
+							.concat(cryptos)
+							.sort((a, b) =>
+								parseFloat(b.marketCap) < parseFloat(a.marketCap) ? -1 : 1
+							)
+					);
+				}
+
+				if (filterVal === 'change') {
+					setCryptos(
+						[]
+							.concat(cryptos)
+							.sort((a, b) =>
+								parseFloat(b.change) < parseFloat(a.change) ? -1 : 1
+							)
+					);
+				}
 				break;
 
 			default:
