@@ -26,7 +26,7 @@ const App = () => {
 		{
 			id: 4,
 			exact: true,
-			path: '/crypto/:coinId',
+			path: '/cryptocurrencies/:coinId',
 			component: <CryptoDetails />,
 		},
 		{ id: 5, exact: true, path: '/news', component: <News /> },

@@ -5,7 +5,7 @@ import { Card, Col } from 'antd';
 const CryptocurrenciesCard = ({ currency, filterBy }) => {
 	return (
 		<Col xs={24} sm={12} xl={6} xxl={8} className="crypto-card">
-			<Link to={`/crypto/${currency.uuid}`}>
+			<Link to={`/cryptocurrencies/${currency.id}`}>
 				<Card
 					title={`${currency.rank}. ${currency.name}`}
 					extra={
