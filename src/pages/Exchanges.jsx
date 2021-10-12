@@ -49,6 +49,7 @@ const Exchanges = () => {
 	const [, setStats] = useState([]);
 
 	const tableData = [];
+
 	for (let i = 0; i < data?.data?.exchanges.length; i++) {
 		tableData.push({
 			key: data?.data?.exchanges[i].id,
