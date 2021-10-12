@@ -357,6 +357,10 @@ a:hover {
   width: 35px;
   height: 35px;
 }
+.crypto-card .selected{
+  color:rgb(0, 21, 41);
+  font-weight: bold;
+}
 .select-timeperiod {
   width: 200px;
   margin-top: 20px !important;

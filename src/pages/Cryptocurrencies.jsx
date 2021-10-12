@@ -21,6 +21,8 @@ const Cryptocurrencies = ({ simplified }) => {
 	const [isFilterBySelected, setIsFilterBySelected] = useState(false);
 	const [filterVal, setFilterVal] = useState(undefined);
 
+	const filterValuesArr = ['price', 'marketCap', 'change'];
+
 	useEffect(() => {
 		const filteredData = cryptoList?.data?.coins.filter(coin =>
 			coin.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -53,65 +55,31 @@ const Cryptocurrencies = ({ simplified }) => {
 	const handleOrderBy = value => {
 		switch (value) {
 			case 'asc':
-				if (filterVal === 'price') {
-					setCryptos(
-						[].concat(cryptos).sort((a, b) => {
-							return parseFloat(a.price) > parseFloat(b.price) ? 1 : -1;
-						})
-					);
-				}
-
-				if (filterVal === 'marketCap') {
-					setCryptos(
-						[].concat(cryptos).sort((a, b) => {
-							return parseFloat(a.marketCap) > parseFloat(b.marketCap) ? 1 : -1;
-						})
-					);
-				}
-
-				if (filterVal === 'change') {
-					setCryptos(
-						[].concat(cryptos).sort((a, b) => {
-							return parseFloat(a.change) > parseFloat(b.change) ? 1 : -1;
-						})
-					);
-				}
+				filterValuesArr.forEach(val => {
+					if (filterVal === val) {
+						setCryptos(
+							[].concat(cryptos).sort((a, b) => {
+								return parseFloat(a.val) > parseFloat(b.val) ? 1 : -1;
+							})
+						);
+					}
+				});
 				break;
 
 			case 'desc':
-				if (filterVal === 'price') {
-					setCryptos(
-						[]
-							.concat(cryptos)
-							.sort((a, b) =>
-								parseFloat(b.price) < parseFloat(a.price) ? -1 : 1
-							)
-					);
-				}
-
-				if (filterVal === 'marketCap') {
-					setCryptos(
-						[]
-							.concat(cryptos)
-							.sort((a, b) =>
-								parseFloat(b.marketCap) < parseFloat(a.marketCap) ? -1 : 1
-							)
-					);
-				}
-
-				if (filterVal === 'change') {
-					setCryptos(
-						[]
-							.concat(cryptos)
-							.sort((a, b) =>
-								parseFloat(b.change) < parseFloat(a.change) ? -1 : 1
-							)
-					);
-				}
+				filterValuesArr.forEach(val => {
+					if (filterVal === val) {
+						setCryptos(
+							[].concat(cryptos).sort((a, b) => {
+								return parseFloat(a.val) > parseFloat(b.val) ? 1 : -1;
+							})
+						);
+					}
+				});
 				break;
 
 			default:
-				setCryptos(cryptos);
+				setCryptos([].concat(cryptos));
 				break;
 		}
 	};
@@ -151,7 +119,11 @@ const Cryptocurrencies = ({ simplified }) => {
 				</>
 			)}
 
-			<CryptocurrenciesContainer data={cryptos} visible={visible} />
+			<CryptocurrenciesContainer
+				data={cryptos}
+				visible={visible}
+				filterBy={filterVal}
+			/>
 
 			{!simplified && (
 				<LoadMore

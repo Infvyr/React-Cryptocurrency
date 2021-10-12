@@ -2,10 +2,10 @@ import millify from 'millify';
 import { Link } from 'react-router-dom';
 import { Card, Col } from 'antd';
 
-const CryptocurrenciesCard = ({ currency }) => {
+const CryptocurrenciesCard = ({ currency, filterBy }) => {
 	return (
 		<Col xs={24} sm={12} xl={6} xxl={8} className="crypto-card">
-			<Link to={`/crypto/${currency.id}`}>
+			<Link to={`/crypto/${currency.uuid}`}>
 				<Card
 					title={`${currency.rank}. ${currency.name}`}
 					extra={
@@ -16,9 +16,15 @@ const CryptocurrenciesCard = ({ currency }) => {
 						/>
 					}
 					hoverable>
-					<p>Price: {millify(currency.price, { precision: 6 })}</p>
-					<p>Market cap: {millify(currency.marketCap)}</p>
-					<p>Daily change: {millify(currency.change)}%</p>
+					<p className={filterBy === 'price' ? 'selected' : null}>
+						Price: {millify(currency.price, { precision: 6 })}
+					</p>
+					<p className={filterBy === 'marketCap' ? 'selected' : null}>
+						Market cap: {millify(currency.marketCap)}
+					</p>
+					<p className={filterBy === 'change' ? 'selected' : null}>
+						Daily change: {millify(currency.change)}%
+					</p>
 				</Card>
 			</Link>
 		</Col>
