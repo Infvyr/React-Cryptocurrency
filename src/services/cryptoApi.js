@@ -1,11 +1,14 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const cryptoApiHeaders = {
-    "x-rapidapi-host": "coinranking1.p.rapidapi.com",
-    "x-rapidapi-key": process.env.REACT_APP_RAPID_API_KEY,
+    // "x-rapidapi-host": "coinranking1.p.rapidapi.com",
+    "x-access-token":
+        "coinrankingbe42030d1b95b849147ccb4ff678ab5c25c0b50aa13fb373",
+    "Access-Control-Allow-Origin": "*",
 };
 
-const baseUrl = "https://coinranking1.p.rapidapi.com";
+const baseUrl =
+    "https://cors-anywhere.herokuapp.com/https://api.coinranking.com/v2";
 
 const createRequest = url => ({ url, headers: cryptoApiHeaders });
 
